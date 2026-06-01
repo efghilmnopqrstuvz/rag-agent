@@ -1,0 +1,14 @@
+# Ambiente virtuale
+venv/
+.venv/
+
+# Variabili d'ambiente
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Vector store locale (lo aggiungeremo dopo)
+data/chroma/
