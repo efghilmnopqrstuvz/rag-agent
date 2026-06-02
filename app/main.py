@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.models.query import QueryRequest, QueryResponse
+from app.api.query import router as query_router
 
 ### Tutto segue questo ciclo:  richiesta HTTP → FastAPI → funzione Python → risposta JSON
 
@@ -10,15 +10,13 @@ app = FastAPI(
     version="0.1.0"
 )
 
+# Include il router — tutti gli endpoint definiti lì
+# diventano parte dell'applicazione
+app.include_router(query_router)
+
 # Il nostro primo endpoint — solo per verificare che tutto funzioni
 @app.get("/health")
 def health_check():
     """Verifica che il server sia attivo."""
     return {"status": "ok"}
 
-@app.post("/query")
-def query(request: QueryRequest) -> QueryResponse:
-    """Riceve una domanda e restituisce una risposta."""
-    # Per ora, rispondiamo con un messaggio di esempio
-    answer = f"Hai chiesto:'{request.question}'"
-    return QueryResponse(answer=answer)
