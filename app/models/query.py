@@ -5,3 +5,6 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     answer: str
+
+class AddDocumentsRequest(BaseModel):
+    urls: list[str]
