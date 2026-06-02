@@ -6,7 +6,8 @@ class Settings(BaseSettings):
     openai_api_key: str
     model_name: str = "gpt-4"  # valore di default se non specificato in .env
     app_env: str = "development"
-
+    user_agent: str = "rag-agent/1.0"
+    
     class Config:
         env_file = ".env"  # dice a Pydantic dove trovare il file
 
