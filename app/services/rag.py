@@ -55,6 +55,27 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
+def add_documents(urls: list[str]) -> int:
+    """
+    Aggiunge nuovi documenti al vector store esistente.
+    Non ricrea tutto da zero — aggiunge solo i nuovi chunk.
+    Restituisce il numero di chunk aggiunti.
+    """
+    # Carica e splitta i nuovi documenti
+    chunks = load_and_split_documents(urls)
+    
+    # Carica il vector store esistente
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    vectorstore = Chroma(
+        persist_directory=CHROMA_PATH,
+        embedding_function=embeddings
+    )
+    
+    # Aggiunge i nuovi chunk a quelli già esistenti
+    vectorstore.add_documents(chunks)
+    
+    return len(chunks)
+
 def get_rag_chain(vectorstore: Chroma):
     """
     Costruisce la chain RAG completa con LCEL:
