@@ -5,15 +5,22 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
+import bs4
 
 # Cartella dove Chroma salverà i dati su disco
 CHROMA_PATH = "data/chroma"
 
 def load_and_split_documents(urls: list[str]) -> list:
     """
-    Carica documenti da una lista di URL e li divide in chunk.
+    Carica documenti da una lista di URL, pulisce il testo
+    estraendo solo il contenuto principale, e divide in chunk.
     """
-    loader = WebBaseLoader(urls)
+    loader = WebBaseLoader(
+    web_paths=urls,
+    bs_kwargs={
+        "parse_only": bs4.SoupStrainer("main")
+        }
+    )
     documents = loader.load()
     
     text_splitter = RecursiveCharacterTextSplitter(
