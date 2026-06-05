@@ -18,7 +18,14 @@ CHROMA_PATH = "data/chroma"
 # Prompt condiviso: endpoint ed eval DEVONO usare lo stesso,
 # altrimenti l'eval non misura ciò che gira davvero in produzione.
 RAG_PROMPT = ChatPromptTemplate.from_template("""
-Answer the question based on the following retrieved context. If the answer is not contained within the context, say that the information needed to answer is not clearly provided in the context.
+Answer the question based only on the following retrieved context.
+
+Write a complete answer: cover all the relevant points from the context that
+help answer the question, not just the first one. If the context presents a
+trade-off, a comparison, or multiple stages, include all of them.
+
+If the answer is not contained within the context, say that the information
+needed to answer is not clearly provided in the context.
 
 Context: {context}
 
